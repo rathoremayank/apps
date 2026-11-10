@@ -257,10 +257,12 @@
       box-shadow: 0 5px 14px rgb(98 80 201 / 25%);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
+    .project-list {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
     }
 
     .card {
@@ -269,21 +271,23 @@
       --accent-shadow: 118 97 220;
       position: relative;
       isolation: isolate;
-      display: flex;
-      min-height: 203px;
-      flex-direction: column;
-      padding: 20px;
+      display: grid;
+      grid-template-columns: minmax(200px, 0.9fr) minmax(260px, 1.35fr) minmax(225px, auto);
+      align-items: center;
+      gap: 24px;
+      padding: 16px 20px;
       overflow: hidden;
-      border: 1px solid color-mix(in srgb, var(--accent) 18%, white);
-      border-radius: 14px;
-      background: linear-gradient(145deg, white 52%, var(--tint));
-      box-shadow: var(--shadow);
+      border: 0;
+      background: transparent;
+    }
+
+    .card + .card {
+      border-top: 1px solid var(--line);
     }
 
     :root[data-theme="dark"] .card {
       --tint: color-mix(in srgb, var(--accent) 14%, #171521);
-      border-color: color-mix(in srgb, var(--accent) 28%, #292638);
-      background: linear-gradient(145deg, #171521 52%, var(--tint));
+      background: transparent;
     }
 
     .card:nth-child(6n + 2) {
@@ -320,25 +324,11 @@
       position: absolute;
       z-index: -1;
       top: 0;
-      right: 20px;
-      left: 20px;
-      height: 4px;
-      border-radius: 0 0 8px 8px;
-      background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white));
+      bottom: 0;
+      left: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white));
       content: "";
-    }
-
-    .card::after {
-      position: absolute;
-      z-index: -1;
-      top: -44px;
-      right: -44px;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: var(--accent);
-      content: "";
-      opacity: 0.06;
     }
 
     .card[hidden] {
@@ -347,7 +337,7 @@
 
     .card-top {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
     }
@@ -383,8 +373,7 @@
     }
 
     .description {
-      flex: 1;
-      margin: 11px 0 19px;
+      margin: 0;
       color: var(--muted);
       font-size: 0.88rem;
       line-height: 1.55;
@@ -395,8 +384,6 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding-top: 13px;
-      border-top: 1px solid color-mix(in srgb, var(--accent) 14%, white);
     }
 
     .category {
@@ -469,8 +456,15 @@
     }
 
     @media (max-width: 850px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .card {
+        grid-template-columns: minmax(170px, 0.85fr) minmax(200px, 1.15fr);
+        gap: 10px 20px;
+      }
+
+      .card-footer {
+        grid-column: 1 / -1;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
       }
     }
 
@@ -491,13 +485,14 @@
         width: 100%;
       }
 
-      .grid {
+      .card {
         grid-template-columns: 1fr;
-        gap: 11px;
+        gap: 10px;
+        padding: 16px 16px 16px 20px;
       }
 
-      .card {
-        min-height: 185px;
+      .card-footer {
+        grid-column: auto;
       }
     }
 
@@ -522,7 +517,7 @@
       </button>
       <p class="eyebrow">Mayank Rathore · Project directory</p>
       <h1>A home for all<br>the things I build.</h1>
-      <p class="intro">Browse my projects, experiments, and learning resources. Each tile links to its repository and GitHub Pages site.</p>
+      <p class="intro">Browse my projects, experiments, and learning resources. Each project links to its repository and GitHub Pages site.</p>
     </header>
 
     <section aria-labelledby="projects-heading">
@@ -542,7 +537,7 @@
         <button class="filter" type="button" data-filter="personal" aria-pressed="false">Personal</button>
       </div>
 
-      <div class="grid" id="project-grid">
+      <div class="project-list" id="project-grid">
         <article class="card" data-category="apps" data-search="holiday-planner plan holidays and time off apps">
           <div class="card-top"><h3 class="project-name">holiday-planner</h3><span class="badge">PUBLIC</span></div>
           <p class="description">Plan holidays and time off.</p>

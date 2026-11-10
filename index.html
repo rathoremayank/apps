@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <meta name="description" content="A directory of Mayank's projects, with links to their GitHub repositories and GitHub Pages sites.">
+  <title>Projects | Mayank Rathore</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24233a;
+      --muted: #69677b;
+      --line: #e8e4ed;
+      --paper: #ffffff;
+      --canvas: #fcf9ff;
+      --green: #6250c9;
+      --green-dark: #4838a6;
+      --green-pale: #f0edff;
+      --shadow: 0 10px 28px rgb(69 49 103 / 8%);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f0edff;
+      --muted: #a29bb8;
+      --line: #292638;
+      --paper: #171521;
+      --canvas: #0c0b12;
+      --green: #c0b3ff;
+      --green-dark: #d0c6ff;
+      --green-pale: #292438;
+      --shadow: 0 10px 28px rgb(0 0 0 / 42%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 9% 12%, rgb(255 191 208 / 38%), transparent 29rem),
+        radial-gradient(ellipse at 89% 23%, rgb(190 224 255 / 48%), transparent 31rem),
+        radial-gradient(ellipse at 60% 90%, rgb(222 206 255 / 36%), transparent 34rem),
+        var(--canvas);
+      background-attachment: fixed;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root[data-theme="dark"] body {
+      background-image:
+        radial-gradient(ellipse at 9% 12%, rgb(93 40 86 / 15%), transparent 29rem),
+        radial-gradient(ellipse at 89% 23%, rgb(34 56 105 / 18%), transparent 31rem),
+        radial-gradient(ellipse at 60% 90%, rgb(72 43 112 / 15%), transparent 34rem);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      position: relative;
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 64px 0 48px;
+      animation: page-arrive 650ms cubic-bezier(.2, .75, .25, 1) both;
+    }
+
+    .page > header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+
+    .theme-toggle {
+      grid-column: 2;
+      grid-row: 1;
+      display: inline-flex;
+      min-height: 40px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.83rem;
+      font-weight: 650;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--green);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 3px;
+    }
+
+    .theme-icon {
+      color: var(--green);
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+
+    .eyebrow {
+      grid-column: 1;
+      grid-row: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 17px;
+      color: var(--green);
+      font-size: 0.76rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: page-arrive 550ms 80ms both;
+    }
+
+    .eyebrow::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff8e9e, #ffbd67);
+      content: "";
+      box-shadow: 0 0 0 5px rgb(255 142 158 / 13%);
+      animation: dot-pop 2.4s ease-in-out infinite;
+    }
+
+    h1 {
+      grid-column: 1 / -1;
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.065em;
+      line-height: 1.02;
+      background: linear-gradient(105deg, #27233d 5%, #7056d9 52%, #e66c91 96%);
+      background-clip: text;
+      color: transparent;
+      animation: page-arrive 650ms 120ms both;
+    }
+
+    .intro {
+      grid-column: 1 / -1;
+      max-width: 590px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      animation: page-arrive 650ms 190ms both;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 42px 0 20px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin: 0;
+      font-size: 1.08rem;
+      font-weight: 680;
+      letter-spacing: -0.02em;
+    }
+
+    .project-count {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .search {
+      width: min(280px, 42vw);
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.9rem;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    .search::placeholder {
+      color: #89958f;
+    }
+
+    :root[data-theme="dark"] .search::placeholder {
+      color: #a29bb8;
+    }
+
+    .search:focus {
+      border-color: #69a985;
+      box-shadow: 0 0 0 3px rgb(73 166 117 / 14%);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .filter {
+      min-height: 34px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: #596961;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .filter:hover {
+      transform: translateY(-2px);
+      border-color: #c4b8ff;
+      background: #f5f2ff;
+      color: var(--green-dark);
+      box-shadow: 0 5px 12px rgb(86 66 158 / 10%);
+    }
+
+    :root[data-theme="dark"] .filter {
+      color: #c4bfd4;
+    }
+
+    :root[data-theme="dark"] .filter:hover {
+      border-color: #7567ab;
+      background: #262333;
+      color: #e2dcff;
+      box-shadow: 0 5px 12px rgb(0 0 0 / 20%);
+    }
+
+    .filter[aria-pressed="true"] {
+      border-color: var(--green);
+      background: var(--green);
+      color: white;
+      box-shadow: 0 5px 14px rgb(98 80 201 / 25%);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      --accent: #7661dc;
+      --tint: #f5f2ff;
+      --accent-shadow: 118 97 220;
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      min-height: 203px;
+      flex-direction: column;
+      padding: 20px;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--accent) 18%, white);
+      border-radius: 14px;
+      background: linear-gradient(145deg, white 52%, var(--tint));
+      box-shadow: var(--shadow);
+    }
+
+    :root[data-theme="dark"] .card {
+      --tint: color-mix(in srgb, var(--accent) 14%, #171521);
+      border-color: color-mix(in srgb, var(--accent) 28%, #292638);
+      background: linear-gradient(145deg, #171521 52%, var(--tint));
+    }
+
+    .card:nth-child(6n + 2) {
+      --accent: #e575a1;
+      --tint: #fff0f5;
+      --accent-shadow: 229 117 161;
+    }
+
+    .card:nth-child(6n + 3) {
+      --accent: #e99a42;
+      --tint: #fff6e9;
+      --accent-shadow: 233 154 66;
+    }
+
+    .card:nth-child(6n + 4) {
+      --accent: #27a38c;
+      --tint: #eafaf5;
+      --accent-shadow: 39 163 140;
+    }
+
+    .card:nth-child(6n + 5) {
+      --accent: #548bdc;
+      --tint: #edf5ff;
+      --accent-shadow: 84 139 220;
+    }
+
+    .card:nth-child(6n) {
+      --accent: #aa70ce;
+      --tint: #f7effc;
+      --accent-shadow: 170 112 206;
+    }
+
+    .card::before {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 20px;
+      left: 20px;
+      height: 4px;
+      border-radius: 0 0 8px 8px;
+      background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white));
+      content: "";
+    }
+
+    .card::after {
+      position: absolute;
+      z-index: -1;
+      top: -44px;
+      right: -44px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--accent);
+      content: "";
+      opacity: 0.06;
+    }
+
+    .card[hidden] {
+      display: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .project-name {
+      overflow-wrap: anywhere;
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 680;
+      letter-spacing: -0.025em;
+      line-height: 1.4;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: var(--tint);
+      color: var(--accent);
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .badge.private {
+      background: #f1efeb;
+      color: #756b59;
+    }
+
+    :root[data-theme="dark"] .badge.private {
+      background: #292631;
+      color: #c9c0aa;
+    }
+
+    .description {
+      flex: 1;
+      margin: 11px 0 19px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 13px;
+      border-top: 1px solid color-mix(in srgb, var(--accent) 14%, white);
+    }
+
+    .category {
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 580;
+    }
+
+    .links {
+      display: flex;
+      gap: 13px;
+    }
+
+    .links a {
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: var(--tint);
+      color: var(--accent);
+      font-size: 0.79rem;
+      font-weight: 680;
+      text-decoration: none;
+      text-underline-offset: 3px;
+    }
+
+    .links a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .empty-state {
+      display: none;
+      padding: 44px 20px;
+      border: 1px dashed #cbd6ce;
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    :root[data-theme="dark"] .empty-state {
+      border-color: #393448;
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
+    .note {
+      margin: 20px 0 0;
+      color: #7a8780;
+      font-size: 0.77rem;
+      line-height: 1.6;
+    }
+
+    :root[data-theme="dark"] .note {
+      color: #8d879f;
+    }
+
+    :root[data-theme="dark"] h1 {
+      background-image: linear-gradient(105deg, #f3efff 5%, #b4a1ff 52%, #ff9fbd 96%);
+    }
+
+    @keyframes page-arrive {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes dot-pop {
+      0%, 100% { box-shadow: 0 0 0 4px rgb(255 142 158 / 12%); }
+      50% { box-shadow: 0 0 0 8px rgb(255 142 158 / 5%); }
+    }
+
+    @media (max-width: 850px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 32px, 440px);
+        padding-top: 42px;
+      }
+
+      .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 34px;
+      }
+
+      .search {
+        width: 100%;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 11px;
+      }
+
+      .card {
+        min-height: 185px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode">
+        <span class="theme-icon" id="theme-icon" aria-hidden="true">☾</span>
+        <span id="theme-label">Dark mode</span>
+      </button>
+      <p class="eyebrow">Mayank Rathore · Project directory</p>
+      <h1>A home for all<br>the things I build.</h1>
+      <p class="intro">Browse my projects, experiments, and learning resources. Each tile links to its repository and GitHub Pages site.</p>
+    </header>
+
+    <section aria-labelledby="projects-heading">
+      <div class="toolbar">
+        <h2 class="section-label" id="projects-heading">All projects <span class="project-count" id="project-count">18 projects</span></h2>
+        <label>
+          <span hidden>Search projects</span>
+          <input class="search" id="project-search" type="search" placeholder="Search projects..." autocomplete="off">
+        </label>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter projects by category">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter" type="button" data-filter="apps" aria-pressed="false">Apps &amp; ideas</button>
+        <button class="filter" type="button" data-filter="devops" aria-pressed="false">DevOps &amp; cloud</button>
+        <button class="filter" type="button" data-filter="learning" aria-pressed="false">Learning</button>
+        <button class="filter" type="button" data-filter="personal" aria-pressed="false">Personal</button>
+      </div>
+
+      <div class="grid" id="project-grid">
+        <article class="card" data-category="apps" data-search="holiday-planner plan holidays and time off apps">
+          <div class="card-top"><h3 class="project-name">holiday-planner</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">Plan holidays and time off.</p>
+          <div class="card-footer"><span class="category">Apps &amp; ideas</span><nav class="links" aria-label="holiday-planner links"><a href="https://rathoremayank.github.io/holiday-planner/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/holiday-planner" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="personal" data-search="apps project directory portfolio">
+          <div class="card-top"><h3 class="project-name">apps</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A directory of my projects and apps.</p>
+          <div class="card-footer"><span class="category">Personal</span><nav class="links" aria-label="apps links"><a href="https://rathoremayank.github.io/apps/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/apps" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="apps" data-search="what-would javascript">
+          <div class="card-top"><h3 class="project-name">what-would</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A JavaScript project exploring “what would” possibilities.</p>
+          <div class="card-footer"><span class="category">Apps &amp; ideas</span><nav class="links" aria-label="what-would links"><a href="https://rathoremayank.github.io/what-would/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/what-would" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="apps" data-search="ideas-bucket app ideas experimental projects javascript">
+          <div class="card-top"><h3 class="project-name">ideas-bucket</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A repo for app ideas and experimental projects.</p>
+          <div class="card-footer"><span class="category">Apps &amp; ideas</span><nav class="links" aria-label="ideas-bucket links"><a href="https://rathoremayank.github.io/ideas-bucket/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/ideas-bucket" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="personal" data-search="rathoremayank.github.io landing site portfolio css">
+          <div class="card-top"><h3 class="project-name">rathoremayank.github.io</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">My GitHub landing site.</p>
+          <div class="card-footer"><span class="category">Personal</span><nav class="links" aria-label="rathoremayank.github.io links"><a href="https://rathoremayank.github.io/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/rathoremayank.github.io" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="learning" data-search="youtube-interview-series youtube interview series private">
+          <div class="card-top"><h3 class="project-name">youtube-interview-series</h3><span class="badge private">PRIVATE</span></div>
+          <p class="description">A YouTube interview series.</p>
+          <div class="card-footer"><span class="category">Learning</span><nav class="links" aria-label="youtube-interview-series links"><a href="https://rathoremayank.github.io/youtube-interview-series/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/youtube-interview-series" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="devops" data-search="devops-lookup devops reference">
+          <div class="card-top"><h3 class="project-name">devops-lookup</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A DevOps lookup and reference project.</p>
+          <div class="card-footer"><span class="category">DevOps &amp; cloud</span><nav class="links" aria-label="devops-lookup links"><a href="https://rathoremayank.github.io/devops-lookup/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/devops-lookup" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="apps" data-search="universe">
+          <div class="card-top"><h3 class="project-name">universe</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">Explore the universe project.</p>
+          <div class="card-footer"><span class="category">Apps &amp; ideas</span><nav class="links" aria-label="universe links"><a href="https://rathoremayank.github.io/universe/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/universe" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="devops" data-search="mlops-starter-pack mlops devops cloud">
+          <div class="card-top"><h3 class="project-name">mlops-starter-pack</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A starter pack for MLOps.</p>
+          <div class="card-footer"><span class="category">DevOps &amp; cloud</span><nav class="links" aria-label="mlops-starter-pack links"><a href="https://rathoremayank.github.io/mlops-starter-pack/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/mlops-starter-pack" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="devops" data-search="fleet-infra fleet infrastructure devops cloud">
+          <div class="card-top"><h3 class="project-name">fleet-infra</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">Infrastructure for a fleet.</p>
+          <div class="card-footer"><span class="category">DevOps &amp; cloud</span><nav class="links" aria-label="fleet-infra links"><a href="https://rathoremayank.github.io/fleet-infra/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/fleet-infra" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="devops" data-search="flux-minikube-dev flux minikube devops private">
+          <div class="card-top"><h3 class="project-name">flux-minikube-dev</h3><span class="badge private">PRIVATE</span></div>
+          <p class="description">A Flux and Minikube development project.</p>
+          <div class="card-footer"><span class="category">DevOps &amp; cloud</span><nav class="links" aria-label="flux-minikube-dev links"><a href="https://rathoremayank.github.io/flux-minikube-dev/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/flux-minikube-dev" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="devops" data-search="terraspan terraform multi cloud aws azure gcp infrastructure">
+          <div class="card-top"><h3 class="project-name">TerraSpan</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A modular, multi-cloud Terraform framework for AWS, Azure, and GCP.</p>
+          <div class="card-footer"><span class="category">DevOps &amp; cloud</span><nav class="links" aria-label="TerraSpan links"><a href="https://rathoremayank.github.io/TerraSpan/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/TerraSpan" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="learning" data-search="simple-java-webapp java web app">
+          <div class="card-top"><h3 class="project-name">simple-java-webapp</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A simple Java web application.</p>
+          <div class="card-footer"><span class="category">Learning</span><nav class="links" aria-label="simple-java-webapp links"><a href="https://rathoremayank.github.io/simple-java-webapp/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/simple-java-webapp" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="learning" data-search="python-for-devops python devops">
+          <div class="card-top"><h3 class="project-name">python-for-devops</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">Python projects and resources for DevOps.</p>
+          <div class="card-footer"><span class="category">Learning</span><nav class="links" aria-label="python-for-devops links"><a href="https://rathoremayank.github.io/python-for-devops/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/python-for-devops" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="learning" data-search="ai-learning-guide ai learning javascript">
+          <div class="card-top"><h3 class="project-name">ai-learning-guide</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A guide to learning AI.</p>
+          <div class="card-footer"><span class="category">Learning</span><nav class="links" aria-label="ai-learning-guide links"><a href="https://rathoremayank.github.io/ai-learning-guide/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/ai-learning-guide" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="apps" data-search="task-planner task planner javascript">
+          <div class="card-top"><h3 class="project-name">task-planner</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A planner for organizing tasks.</p>
+          <div class="card-footer"><span class="category">Apps &amp; ideas</span><nav class="links" aria-label="task-planner links"><a href="https://rathoremayank.github.io/task-planner/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/task-planner" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="learning" data-search="devops-roadmap devops roadmap css">
+          <div class="card-top"><h3 class="project-name">devops-roadmap</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A roadmap for learning DevOps.</p>
+          <div class="card-footer"><span class="category">Learning</span><nav class="links" aria-label="devops-roadmap links"><a href="https://rathoremayank.github.io/devops-roadmap/app/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/devops-roadmap" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+        <article class="card" data-category="learning" data-search="devops-ai-roadmap devops ai roadmap">
+          <div class="card-top"><h3 class="project-name">devops-ai-roadmap</h3><span class="badge">PUBLIC</span></div>
+          <p class="description">A roadmap connecting DevOps and AI.</p>
+          <div class="card-footer"><span class="category">Learning</span><nav class="links" aria-label="devops-ai-roadmap links"><a href="https://rathoremayank.github.io/devops-ai-roadmap/" target="_blank" rel="noopener noreferrer">Pages ↗</a><a href="https://github.com/rathoremayank/devops-ai-roadmap" target="_blank" rel="noopener noreferrer">Repo ↗</a></nav></div>
+        </article>
+      </div>
+      <p class="empty-state" id="empty-state" role="status">No projects match that search. Try another name or category.</p>
+      <p class="note">Pages links use the standard GitHub Pages project-site URL. A site may not open if GitHub Pages has not been enabled for that repository.</p>
+    </section>
+  </main>
+  <script>
+    const themeToggle = document.querySelector("#theme-toggle");
+    const themeIcon = document.querySelector("#theme-icon");
+    const themeLabel = document.querySelector("#theme-label");
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    let savedTheme = null;
+
+    try {
+      savedTheme = localStorage.getItem("project-directory-theme");
+    } catch (error) {
+      console.warn("The saved theme preference could not be read.", error);
+    }
+
+    function setTheme(theme) {
+      const isDark = theme === "dark";
+      document.documentElement.dataset.theme = theme;
+      themeToggle.setAttribute("aria-label", `Switch to ${isDark ? "light" : "dark"} mode`);
+      themeIcon.textContent = isDark ? "☀" : "☾";
+      themeLabel.textContent = isDark ? "Light mode" : "Dark mode";
+      themeColor.setAttribute("content", isDark ? "#0c0b12" : "#f5f7f4");
+    }
+
+    setTheme(savedTheme === "dark" ? "dark" : "light");
+
+    themeToggle.addEventListener("click", () => {
+      const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      setTheme(theme);
+      try {
+        localStorage.setItem("project-directory-theme", theme);
+      } catch (error) {
+        console.warn("The theme preference could not be saved.", error);
+      }
+    });
+
+    const cards = [...document.querySelectorAll(".card")];
+    const filters = [...document.querySelectorAll(".filter")];
+    const search = document.querySelector("#project-search");
+    const count = document.querySelector("#project-count");
+    const emptyState = document.querySelector("#empty-state");
+    let activeCategory = "all";
+
+    function updateProjects() {
+      const query = search.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const card of cards) {
+        const matchesCategory = activeCategory === "all" || card.dataset.category === activeCategory;
+        const matchesSearch = card.dataset.search.includes(query);
+        const isVisible = matchesCategory && matchesSearch;
+        card.hidden = !isVisible;
+        visibleCount += Number(isVisible);
+      }
+
+      count.textContent = `${visibleCount} ${visibleCount === 1 ? "project" : "projects"}`;
+      emptyState.classList.toggle("visible", visibleCount === 0);
+    }
+
+    for (const filter of filters) {
+      filter.addEventListener("click", () => {
+        activeCategory = filter.dataset.filter;
+        for (const button of filters) {
+          button.setAttribute("aria-pressed", String(button === filter));
+        }
+        updateProjects();
+      });
+    }
+
+    search.addEventListener("input", updateProjects);
+  </script>
+</body>
+</html>
